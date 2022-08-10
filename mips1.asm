@@ -1,7 +1,7 @@
 	.data
 input1: .asciiz "Informe o primeiro numero: "
 input2: .asciiz "Informe o segundo numero: "   # TODO otimizar os campos salvos 
-input3: .asciiz "0) Soma   1) Subtração  2) Multiplicação  3) Divisão\nInforme a operação desejada: "
+input3: .asciiz "0) Soma   1) Subtração  2) Divisão  3) Multiplicação  \nInforme a operação desejada: "
 result: .asciiz "O resultadoeh "
 
 
@@ -31,13 +31,33 @@ main:
 	li $v0, 5
 	syscall
 	
-	bne $v0, 0, exit
+	beq $v0, 0, sum
+	beq $v0, 1, subtr
+	beq $v0, 2, divide
+	beq $v0, 3, multiply
 
+sum:
 	add $s2, $s0, $s1
+	j output
+	
+subtr:
+	sub $s2, $s0, $s1
+	j output
+		
+divide:
+	div $s0, $s1
+	mflo $s2
+	j output
+		
+multiply:
+	mult $s0, $s1
+	mflo $s2
+	j output
+	
+output:
 	la $a0, ($s2)
 	li $v0, 1	
 	syscall
 
-exit:
 
 
