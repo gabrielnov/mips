@@ -2,7 +2,7 @@
 input1: .asciiz "Informe o primeiro numero: "
 input2: .asciiz "Informe o segundo numero: "   # TODO otimizar os campos salvos 
 input3: .asciiz "0) Soma   1) Subtração  2) Divisão  3) Multiplicação  \nInforme a operação desejada: "
-result: .asciiz "O resultadoeh "
+result: .asciiz "Resultado: "
 
 
 	.text
@@ -31,11 +31,16 @@ main:
 	li $v0, 5
 	syscall
 	
+	li $v0, 4
+	la $a0, result
+	syscall
+	
+	# TODO: validar input invalido
 	beq $v0, 0, sum
 	beq $v0, 1, subtr
 	beq $v0, 2, divide
 	beq $v0, 3, multiply
-
+	
 sum:
 	add $s2, $s0, $s1
 	j output
